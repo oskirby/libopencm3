@@ -2,7 +2,7 @@
 
 @brief <b>Defined Constants and Types for the STM32L1xx RTC</b>
 
-@ingroup STM32L1xx_defines
+@ingroup STM32L0xx_defines
 
 @version 1.0.0
 

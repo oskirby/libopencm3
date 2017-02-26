@@ -46,6 +46,7 @@ OBJS		+= exti_common_all.o
 OBJS		+= flash.o
 OBJS		+= flash_common_l01.o
 OBJS		+= i2c_common_v2.o
+OBJS		+= rtc_common_l01f024.o
 OBJS		+= usart.o
 OBJS		+= usart_common_l0f0.o
 OBJS		+= usart_common_v2.o

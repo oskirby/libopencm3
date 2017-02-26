@@ -43,7 +43,7 @@ OBJS		= adc.o adc_common_v1.o can.o desig.o gpio.o pwr.o rcc.o \
 
 OBJS            += crc_common_all.o dac_common_all.o dma_common_f24.o \
                    gpio_common_all.o gpio_common_f0234.o i2c_common_all.o \
-                   iwdg_common_all.o pwr_common_all.o rtc_common_l1f024.o \
+                   iwdg_common_all.o pwr_common_all.o rtc_common_l01f024.o \
                    spi_common_all.o spi_common_l1f124.o timer_common_all.o \
                    timer_common_f0234.o timer_common_f24.o usart_common_all.o \
 		   usart_common_f124.o flash_common_f234.o flash_common_f24.o \
@@ -55,7 +55,7 @@ OBJS            += usb.o usb_standard.o usb_control.o usb_fx07_common.o \
 
 OBJS		+= mac.o phy.o mac_stm32fxx7.o phy_ksz8051mll.o fmc.o
 
-OBJS		+= ltdc.o 
+OBJS		+= ltdc.o
 
 VPATH += ../../usb:../:../../cm3:../common
 VPATH += ../../ethernet
