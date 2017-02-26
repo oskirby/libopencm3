@@ -1,8 +1,8 @@
 /** @defgroup flash_file FLASH
  *
- * @ingroup STM32L1xx
+ * @ingroup STM32Lxxx
  *
- * @brief <b>libopencm3 STM32L1xx FLASH</b>
+ * @brief <b>libopencm3 STM32Lxxx FLASH</b>
  *
  * @version 1.0.0
  *
@@ -15,7 +15,7 @@
  *
  * @date 14 January 2014
  *
- * For the STM32L1xx, accessing FLASH memory is described briefly in
+ * For the STM32Lxxx, accessing FLASH memory is described briefly in
  * section 2.3.3 of the STM32L1xx Reference Manual.
  * For detailed programming information see:
  * PM0062 programming manual: STM32L1xxxx Flash and EEPROM programming
@@ -129,12 +129,14 @@ void flash_set_ws(uint32_t ws)
  */
 void flash_unlock_pecr(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
 	FLASH_PEKEYR = FLASH_PEKEYR_PEKEY1;
 	FLASH_PEKEYR = FLASH_PEKEYR_PEKEY2;
 }
 
 void flash_lock_pecr(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
 	FLASH_PECR |= FLASH_PECR_PELOCK;
 }
 
@@ -146,12 +148,15 @@ void flash_lock_pecr(void)
  */
 void flash_unlock_progmem(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
+	FLASH_PECR |= FLASH_PECR_PRGLOCK;
 	FLASH_PRGKEYR = FLASH_PRGKEYR_PRGKEY1;
 	FLASH_PRGKEYR = FLASH_PRGKEYR_PRGKEY2;
 }
 
 void flash_lock_progmem(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
 	FLASH_PECR |= FLASH_PECR_PRGLOCK;
 }
 
@@ -163,12 +168,15 @@ void flash_lock_progmem(void)
  */
 void flash_unlock_option_bytes(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
+	FLASH_PECR |= FLASH_PECR_OPTLOCK;
 	FLASH_OPTKEYR = FLASH_OPTKEYR_OPTKEY1;
 	FLASH_OPTKEYR = FLASH_OPTKEYR_OPTKEY2;
 }
 
 void flash_lock_option_bytes(void)
 {
+	while (FLASH_SR & FLASH_SR_BSY);
 	FLASH_PECR |= FLASH_PECR_OPTLOCK;
 }
 
