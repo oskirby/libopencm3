@@ -399,7 +399,7 @@ void i2c_disable_txdma(uint32_t i2c)
 	I2C_CR1(i2c) &= ~I2C_CR1_TXDMAEN;
 }
 
-void write_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
+uint8_t write_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 	       uint8_t *data)
 {
 	int wait;
@@ -419,7 +419,9 @@ void write_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 		if (i2c_transmit_int_status(i2c)) {
 			wait = false;
 		}
-		while (i2c_nack(i2c));
+		if (i2c_nack(i2c)) {
+			return 0;
+		}
 	}
 
 	i2c_send_data(i2c, reg);
@@ -429,13 +431,16 @@ void write_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 			if (i2c_transmit_int_status(i2c)) {
 				wait = false;
 			}
-			while (i2c_nack(i2c));
+			if (i2c_nack(i2c)) {
+				return i;
+			}
 		}
 		i2c_send_data(i2c, data[i]);
 	}
+	return size;
 }
 
-void read_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
+uint8_t read_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 	      uint8_t *data)
 {
 	int wait;
@@ -455,7 +460,9 @@ void read_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 		if (i2c_transmit_int_status(i2c)) {
 			wait = false;
 		}
-		while (i2c_nack(i2c)); /* Some error */
+		if (i2c_nack(i2c)) {
+			return 0;
+		}
 	}
 	i2c_send_data(i2c, reg);
 
@@ -472,6 +479,7 @@ void read_i2c(uint32_t i2c, uint8_t i2c_addr, uint8_t reg, uint8_t size,
 		while (i2c_received_data(i2c) == 0);
 		data[i] = i2c_get_data(i2c);
 	}
+	return size;
 }
 
 /**@}*/
